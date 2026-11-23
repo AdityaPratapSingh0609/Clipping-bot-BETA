@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+.env
+data/
+*.mp4
+*.ts
+*.wav
+*.tmp
+node_modules/
+.venv/

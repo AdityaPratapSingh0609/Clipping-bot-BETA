@@ -1,0 +1,29 @@
+{
+  "streamers": {
+    "spanish": [
+      {"id": "ibai", "name": "Ibai Llanos", "platform": "twitch", "channel": "ibai", "target_channel": "Captain Inc."},
+      {"id": "auronplay", "name": "AuronPlay", "platform": "twitch", "channel": "auronplay", "target_channel": "Captain Inc."},
+      {"id": "illojuan", "name": "IlloJuan", "platform": "twitch", "channel": "illojuan", "target_channel": "Captain Inc."},
+      {"id": "rubius", "name": "Rubius", "platform": "twitch", "channel": "rubius", "target_channel": "Captain Inc."},
+      {"id": "thegrefg", "name": "TheGrefg", "platform": "twitch", "channel": "thegrefg", "target_channel": "Captain Inc."},
+      {"id": "elspreen", "name": "ElSpreen", "platform": "twitch", "channel": "elspreen", "target_channel": "Captain Inc."}
+    ],
+    "indian": [
+      {"id": "carryminati", "name": "CarryisLive", "platform": "youtube", "channel": "https://www.youtube.com/@CarryisLive", "target_channels": ["Soop Clips", "Aditya Singh"]},
+      {"id": "techno-gamerz", "name": "Techno Gamerz", "platform": "youtube", "channel": "https://www.youtube.com/@TechnoGamerzOfficial", "target_channels": ["Soop Clips", "Aditya Singh"]},
+      {"id": "total-gaming", "name": "Total Gaming", "platform": "youtube", "channel": "https://www.youtube.com/@TotalGaming093", "target_channels": ["Soop Clips", "Aditya Singh"]},
+      {"id": "mortal", "name": "Mortal", "platform": "youtube", "channel": "https://www.youtube.com/@Mortalyt", "target_channels": ["Soop Clips", "Aditya Singh"]},
+      {"id": "samay-raina", "name": "Samay Raina", "platform": "youtube", "channel": "https://www.youtube.com/@samayraina", "target_channels": ["Soop Clips", "Aditya Singh"]},
+      {"id": "mythpat", "name": "Mythpat", "platform": "youtube", "channel": "https://www.youtube.com/@Mythpat", "target_channels": ["Soop Clips", "Aditya Singh"]}
+    ],
+    "american": [
+      {"id": "kai-cenat-live", "name": "Kai Cenat", "platform": "twitch", "channel": "kaicenat", "target_channels": ["Sooptipoop", "Mild.lywashed", "@mild.lywashed"]},
+      {"id": "ishowspeed", "name": "IShowSpeed", "platform": "youtube", "channel": "https://www.youtube.com/@IShowSpeed", "target_channels": ["Sooptipoop", "Mild.lywashed", "@mild.lywashed"]},
+      {"id": "caseoh", "name": "CaseOh", "platform": "twitch", "channel": "caseoh_", "target_channels": ["Sooptipoop", "Mild.lywashed", "@mild.lywashed"]},
+      {"id": "xqc", "name": "xQc", "platform": "twitch", "channel": "xqc", "target_channels": ["Sooptipoop", "Mild.lywashed", "@mild.lywashed"]},
+      {"id": "jynxzi", "name": "Jynxzi", "platform": "twitch", "channel": "jynxzi", "target_channels": ["Sooptipoop", "Mild.lywashed", "@mild.lywashed"]},
+      {"id": "moistcr1tikal", "name": "MoistCr1TiKaL", "platform": "twitch", "channel": "moistcr1tikal", "target_channels": ["Sooptipoop", "Mild.lywashed", "@mild.lywashed"]},
+      {"id": "adin-ross", "name": "Adin Ross", "platform": "kick", "channel": "adinross", "target_channels": ["Sooptipoop", "Mild.lywashed", "@mild.lywashed"]}
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "channels": {
+    "yt_UCkjgTZmBmsDSQyLS_mcSkZg": {
+      "channel_name": "Captain Inc.",
+      "platform": "youtube",
+      "language": "es",
+      "allowed_streamers": ["ibai", "auronplay", "illojuan", "rubius", "thegrefg", "elspreen"],
+      "description": "Spanish Gaming & Stream Clips Exclusively"
+    },
+    "yt_UCbfjzxY9e8OkUG-S_rjFqjg": {
+      "channel_name": "Soop Clips",
+      "platform": "youtube",
+      "language": "hi",
+      "allowed_streamers": ["carryminati", "techno-gamerz", "total-gaming", "mortal", "samay-raina", "mythpat"],
+      "description": "Indian Gaming & Funny Moments Exclusively"
+    },
+    "yt_UCB_RlbZjHvjyhJPSvOOwAYw": {
+      "channel_name": "Aditya Singh",
+      "platform": "youtube",
+      "language": "hi",
+      "allowed_streamers": ["carryminati", "techno-gamerz", "total-gaming", "mortal", "samay-raina", "mythpat"],
+      "description": "Indian Gaming & Commentary Highlights Exclusively"
+    },
+    "yt_UCEkDIG0cAeSjUKN5oUovO1w": {
+      "channel_name": "Sooptipoop",
+      "platform": "youtube",
+      "language": "en",
+      "allowed_streamers": ["kai-cenat-live", "ishowspeed", "caseoh", "xqc", "jynxzi", "moistcr1tikal", "adin-ross", "mrbeast-gaming"],
+      "description": "American Top Streamers Highlights"
+    },
+    "yt_UCg7auwLdmZqecnojVbFaXKg": {
+      "channel_name": "Mild.lywashed",
+      "platform": "youtube",
+      "language": "en",
+      "allowed_streamers": ["kai-cenat-live", "ishowspeed", "caseoh", "xqc", "jynxzi", "moistcr1tikal", "adin-ross", "mrbeast-gaming"],
+      "description": "American Variety & GTA 6 Viral Clips"
+    },
+    "ig_17841471973196375": {
+      "profile_name": "@mild.lywashed",
+      "platform": "instagram",
+      "language": "en",
+      "allowed_streamers": ["kai-cenat-live", "ishowspeed", "caseoh", "xqc", "jynxzi", "moistcr1tikal", "adin-ross", "mrbeast-gaming"],
+      "description": "Instagram Reels High-Arousal American Streamer Moments"
+    }
+  }
+}
