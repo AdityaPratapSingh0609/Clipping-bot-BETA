@@ -25,6 +25,11 @@ from studio import accounts, ctx, jobs, posting, creators, thumbnails, discord_p
 REPORT_FILE = Path(r"C:\Users\adity\.gemini\antigravity\brain\cfcb4cb8-97a6-43b6-ae16-e650e8af7dd8\OVERNIGHT_VIRAL_REPORT.md")
 HISTORY_FILE = Path("orchestrator_history.json")
 
+# STRICT QUALITY & DAILY LIMIT CONFIGURATION (Under 50 total videos/day)
+MAX_TOTAL_DAILY_POSTS = 48  # Keeps all videos all day strictly under 50
+MAX_PER_CHANNEL_DAILY = 8   # Max 8 high-retention clips per channel per day
+MIN_CLIP_SCORE = 85         # Quality filter: only 85+ scored moments posted
+
 # STRICT CHANNEL MAPPING
 ROUTING = {
     # Spanish Channel
@@ -80,6 +85,14 @@ def load_history():
 def save_history(history):
     HISTORY_FILE.write_text(json.dumps(history, indent=2), encoding="utf-8")
 
+def get_today_posts_count(history) -> int:
+    today_str = datetime.now().strftime("%Y-%m-%d")
+    return sum(1 for item in history if item.get("date", item.get("time", "")[:10]) == today_str)
+
+def get_channel_today_count(history, acc_id: str) -> int:
+    today_str = datetime.now().strftime("%Y-%m-%d")
+    return sum(1 for item in history if item.get("account_id") == acc_id and item.get("date", item.get("time", "")[:10]) == today_str)
+
 def is_peak_window(lang: str) -> bool:
     """Return True if the current local time falls in the peak viewership window for the audience."""
     now = datetime.now()
@@ -97,13 +110,14 @@ def is_peak_window(lang: str) -> bool:
     return False
 
 def get_gap_seconds(lang: str) -> int:
-    """Dynamic Pacing: 2-3 minutes during peak windows; 30-45 minutes outside."""
+    """Quality Pacing: 15-20 minutes during peak windows; 45-60 minutes outside.
+    Allows algorithmic recommendation engine to gather view velocity and retention signals."""
     if is_peak_window(lang):
-        log.info(f"[{lang.upper()}] Audience is in PEAK VIEWERSHIP WINDOW! Pacing: 150s (2.5 mins).")
-        return 150
+        log.info(f"[{lang.upper()}] Audience is in PEAK VIEWERSHIP WINDOW! Quality Pacing: 1200s (20 mins).")
+        return 1200
     else:
-        log.info(f"[{lang.upper()}] Audience is in standard window. Pacing: 1800s (30 mins).")
-        return 1800
+        log.info(f"[{lang.upper()}] Audience is in standard window. Pacing: 2700s (45 mins).")
+        return 2700
 
 def update_report(history):
     try:
@@ -162,13 +176,16 @@ def get_ready_clips_for_creator(creator_id: str) -> list:
                 continue
             j_dir = Path(j.get("dir", ""))
             for c in j.get("clips", []):
+                score = c.get("score", 0)
+                if score < MIN_CLIP_SCORE:
+                    continue
                 c_file = j_dir / "clips" / c.get("file", f"{c['id']}.mp4")
                 if c_file.exists() and c_file.stat().st_size > 100000:
                     ready.append({
                         "job": j,
                         "clip": c,
                         "path": c_file,
-                        "score": c.get("score", 85),
+                        "score": score,
                         "title": c.get("title") or c.get("hook") or "GTA 6 Viral Moment"
                     })
         ready.sort(key=lambda x: -x["score"])
@@ -194,10 +211,19 @@ def format_caption(clip, creator_name, lang="en", platform="instagram"):
 
 def run_orchestration_cycle():
     history = load_history()
+    today_total = get_today_posts_count(history)
+    if today_total >= MAX_TOTAL_DAILY_POSTS:
+        log.info(f"Daily cap reached ({today_total}/{MAX_TOTAL_DAILY_POSTS} posts today). All videos all day strictly capped under 50. Pausing for today.")
+        return
+
     posted_keys = {f"{item.get('job_id')}_{item.get('clip_id')}_{item.get('account_id')}" for item in history}
 
     with ctx.as_user("u_local"):
         for acc_id, route in ROUTING.items():
+            if get_today_posts_count(history) >= MAX_TOTAL_DAILY_POSTS:
+                log.info(f"Daily total cap hit ({MAX_TOTAL_DAILY_POSTS}). Stopping cycle.")
+                break
+
             acc_obj = accounts.get(acc_id)
             if not acc_obj:
                 continue
@@ -207,7 +233,12 @@ def run_orchestration_cycle():
             platform = route["platform"]
             allowed_creators = route["creators"]
 
-            log.info(f"Checking queue for [{lang.upper()}] Channel: {acc_name} ({acc_id})...")
+            channel_today = get_channel_today_count(history, acc_id)
+            if channel_today >= MAX_PER_CHANNEL_DAILY:
+                log.info(f"Channel {acc_name} reached daily cap ({channel_today}/{MAX_PER_CHANNEL_DAILY}). Skipping.")
+                continue
+
+            log.info(f"Checking queue for [{lang.upper()}] Channel: {acc_name} ({acc_id}) [Today: {channel_today}/{MAX_PER_CHANNEL_DAILY}]...")
 
             posted_for_this_acc = False
             for cid in allowed_creators:
@@ -240,6 +271,13 @@ def run_orchestration_cycle():
                             log.info(f"Uploading Short to YouTube ({acc_name}): {title}")
                             tags = item["clip"].get("hashtags") or ["gta6", "gaming", "shorts"]
                             rid, url = accounts.youtube_upload(acc_obj, clip_path, title[:95], caption, tags, "public")
+                            # Apply thumbnail to YouTube video
+                            if thumb_path.exists():
+                                try:
+                                    accounts.youtube_set_thumbnail(acc_obj, rid, thumb_path)
+                                    log.info(f"Custom thumbnail applied to YouTube: {rid}")
+                                except Exception as te:
+                                    log.warning(f"YouTube thumbnail update skipped: {te}")
 
                         log.info(f"SUCCESS {platform.upper()}: {url}")
                         record = {
@@ -251,6 +289,8 @@ def run_orchestration_cycle():
                             "creator": cid,
                             "title": title,
                             "url": url,
+                            "score": item["score"],
+                            "date": datetime.now().strftime("%Y-%m-%d"),
                             "time": datetime.now().strftime("%I:%M %p")
                         }
                         history.append(record)
