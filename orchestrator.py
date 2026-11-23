@@ -32,7 +32,7 @@ ROUTING = {
         "name": "Captain Inc.",
         "platform": "youtube",
         "lang": "es",
-        "creators": ["ibai", "auronplay", "illojuan", "rubius", "thegrefg", "elspreen"]
+        "creators": ["ibai", "auronplay", "auronplay-2", "illojuan", "rubius", "rubius-2", "thegrefg", "elspreen"]
     },
     # Indian Channels
     "yt_UCbfjzxY9e8OkUG-S_rjFqjg": {
